@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<meta name='author' content='Kevin Zeng'>
+		<title>FUSD Voting System</title>
+	</head>
+	<body>
+		<h1>Welcome to the FUSD Voting System</h1>
+		<br>
+		<h2>Below are links to navigate this simple web application.</h2>
+		<br>
+		<hr>
+		<br>
+		<p><a href='/vote'>Click here to vote!</a></p>
+		<p><a href='/admin'>Click here to go to the admin page!</a></p>
+		<br>
+		<br>
+		<h3>How it works:</h3>
+		<p>If you wish to vote, click on the link for the vote page. Enter in your name and whether you want to speak, and hit submit. </p>
+		<p>If you wish to moderate the voting, click on the link for the admin page. The page will populate with everyone who sent a request so far. You may refresh the page to update who's voting if someone submits after you load the page. If you want to reset the system, hit reset, and wait for everyone to vote before you refresh the page.</p>
+		<br>
+		<br>
+		<h4>Version History</h4>
+		<ul>
+			<li>Version 0.02 (2/7/2015): 
+				<ul>
+					<li>Live querying IMPLEMENTED!! Not asynchronous however, since GAE doesn't support sockets. </li>
+					<ul>
+						<li>As a result, the admin page queries every three seconds.</li>
+						<li><strong>Note that power is now turned off for each reset.</strong> </li>
+						<li>I am currently working on a fix. Fortunately, this will not interfere with whether the admin receives votes.</li>
+					</ul>
+					<li>Added power button to turn on/off the live querying (basically like a real buzzer!).</li>
+					<li>Removed refresh button.</li>
+					<li>Moved buttons to top so they don't get pushed down as page gets updated.</li>
+				</ul>
+			</li>
+			<li>Version 0.01 (2/6/2015): 
+				<ul>
+					<li>Added jQuery to frontend to add a refresh button. Asynchronous/live querying is a work in progress.</li>
+					<li>Changed radio buttons to yes/no submit buttons on vote page.</li>
+				</ul>
+			</li>
+			<li>Version 0.00 (2/5/2015): 
+				<ul>
+					<li>Created basic site with login/admin and voting functionality.</li>
+				</ul>
+			</li>
+		</ul>
+		<br>
+		<hr>
+		<p>Made by Kevin Zeng.</p>
+	</body>
+</html>

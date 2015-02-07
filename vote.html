@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<meta name='author' content='Kevin Zeng'>
+		<title>Vote | FUSD Voting System</title>
+	</head>
+	<body>
+		<form method='post'>
+			<h1 style='bold'>Vote</h1>
+			<p>{{response}}</p>
+			<br>
+			<div class='name'>
+				<p>Enter your name <input type='text' name='name' value={{name}}></p>
+			</div>
+			<p>Would you like to speak?</p>
+			<input type='submit' name='choice' value='Yes'>
+			<input type='submit' name='choice' value='No' >
+			<br>
+			<br>
+			{% if lastRequest %}
+				<p>Last submited on {{lastRequest}}</p>
+			{% endif %}
+		</form>
+	</body>
+</html>
