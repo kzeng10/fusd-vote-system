@@ -26,7 +26,7 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_str(template,**kw))
 
 #defining db
-class Voter(db.Model):
+class Speaker(db.Model):
 	name = db.StringProperty(required = True)
 	isVoting = db.BooleanProperty(required = True)
 
@@ -44,16 +44,12 @@ class AdminHandler(Handler):
 	def get(self):
 		password_hash = self.request.cookies.get('pwhash')
 		if check_pass(password_hash):
-			#following is not async...now how to do asigc
-			voters = db.GqlQuery('SELECT * FROM Voter')
-			yes = [voter.name for voter in voters if voter.isVoting]
-			no = [voter.name for voter in voters if not voter.isVoting]
-			self.render('admin.html', voters = [yes, no]) 		#let the ajaxing begin
+			self.render('admin.html') 		#let the ajaxing begin
 		else:
 			self.redirect('/login')
 	def post(self):
 		#clear database!
-		db.delete(Voter.all())
+		db.delete(Speaker.all())
 		self.redirect('/admin')
 
 class LoginHandler(Handler):
@@ -70,14 +66,14 @@ class LoginHandler(Handler):
 			#unsuccessful login
 			self.render('login.html', error = "Invalid password")
 
-class VoteHandler(Handler):
+class SpeakHandler(Handler):
 	def get(self):
 		lastRequest = self.request.cookies.get('lastRequest')
 		name = self.request.cookies.get('name')
 		if name is None: name = ""
 		if lastRequest:
 			lastRequest = datetime.datetime.fromtimestamp(int(lastRequest)).strftime('%b %d, %Y at %I:%M %p')
-		self.render('vote.html', lastRequest = lastRequest, name = name) #{{if lastRequest}} <p>Last submitted ____</p>
+		self.render('speak.html', lastRequest = lastRequest, name = name) #{{if lastRequest}} <p>Last submitted ____</p>
 
 	def post(self):
 		lastRequest = self.request.cookies.get('lastRequest')
@@ -86,26 +82,24 @@ class VoteHandler(Handler):
 		name = self.request.get('name')
 		choice = self.request.get('choice')
 		if name == "":
-			self.render('vote.html', lastRequest = lastRequest, response = 'Please enter a name.')
-		elif choice == "":
-			self.render('vote.html', lastRequest = lastRequest, name = name, response = 'Please select an option.')
+			self.render('speak.html', lastRequest = lastRequest, response = 'Please enter a name.')
 		else:
 			choice = str(choice) == 'Yes'
-			voter = Voter(name = name, isVoting = choice)
-			voter.put()
+			speaker = Speaker(name = name, isVoting = choice)
+			speaker.put()
 			lastRequest = datetime.datetime.fromtimestamp(int(time.time()) - 8*3600).strftime('%b %d, %Y at %I:%M %p')
 			self.response.headers.add_header('Set-Cookie', 'lastRequest=' + str(int(time.time())) + ';Path=/')
 			self.response.headers.add_header('Set-Cookie', 'name=' + str(name) + ';Path=/')
-			self.render('vote.html', lastRequest = lastRequest, name = name, response = 'Successfully submitted.')
+			self.render('speak.html', lastRequest = lastRequest, name = name, response = 'Successfully submitted.')
 
 class JSONHandler(Handler):
 	def get(self):
 		#returns JSON of all db entries
-		voters = db.GqlQuery('SELECT * FROM Voter')
+		speakers = db.GqlQuery('SELECT * FROM Speaker')
 		self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
 		# format as {"speak": ["person1", "person2"], "quiet": ["person3"]}
 		# add in last modified if necessary?
-		speak = [voter.name for voter in voters if voter.isVoting]
-		quiet = [voter.name for voter in voters if not voter.isVoting]
+		speak = [speaker.name for speaker in speakers if speaker.isVoting]
+		quiet = [speaker.name for speaker in speakers if not speaker.isVoting]
 		jsonOut = {"speak": speak, "quiet": quiet}
 		self.write(json.dumps(jsonOut))

@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html lang='en'>
-	<head>
+  <head>
 		<meta charset='utf-8'>
 		<meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
 		<meta name='viewport' content='width=device-width, initial-scale=1'>
 		<meta name='author' content='Kevin Zeng'>
-		<title>Login | FUSD Voting System</title>
+		<title>Login | FUSD Speaking Indicator System</title>
+     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <style> 
+      *{
+  font-family: 'Roboto Condensed', sans-serif;
+    text-align:center;
+  
+    }
+body {
+  background-color:#f0f0f0;
+  margin: 0 auto;
+    padding: 0 2em;
+    max-width: 900px;
+    margin-bottom: 50px;
+    
+  }
+ h1 {
+  color:#999;
+  font-size: 55;
+  font-family: 'Roboto Slab', serif; font-weight: 400;
+  text-align:center;
+  }
+  
+    </style>
 	</head>
+  
 	<body>
-		<form method='post'>
-			<h1 style='bold'>Login</h1>
-			<p>{{error}}</p>
-			<br>
-			<div class='password'>
-				Password <input type='password' name='password'>
-			</div>
-			<br>
-			<br>
-			<input type='submit'>
-		</form>
+
+    <form class="pure-form" method='post'>
+    
+      	<h1 style='bold'>Login</h1>
+        <p>{{error}}</p>
+        Password: <input type='password' name='password' >
+        <input type="submit" class="pure-button pure- button-primary">
+ </form>
 	</body>
 </html>

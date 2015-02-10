@@ -18,7 +18,7 @@
 
 import webapp2
 import re
-from vote import AdminHandler, LoginHandler, VoteHandler, JSONHandler
+from speak import AdminHandler, LoginHandler, SpeakHandler, JSONHandler
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -28,6 +28,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/admin', AdminHandler),
     ('/login', LoginHandler),
-    ('/vote', VoteHandler),
+    ('/speak', SpeakHandler),
     ('/json', JSONHandler)
 ], debug=True)

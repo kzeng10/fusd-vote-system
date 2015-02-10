@@ -1,84 +1,214 @@
 <!DOCTYPE html>
 <html lang='en'>
-	<head>
-		<meta charset='utf-8'>
-		<meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
-		<meta name='viewport' content='width=device-width, initial-scale=1'>
-		<meta name='author' content='Kevin Zeng'>
-		<title>FUSD Voting System</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script>
-			// var interval;
-			// var power = false;
-			//here we get new content and update html
-			var HttpClient = function() {
-			    this.get = function(aUrl, aCallback) {
-			        var anHttpRequest = new XMLHttpRequest();
-			        anHttpRequest.onreadystatechange = function() { 
-			            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-			                aCallback(anHttpRequest.responseText);
-			        }
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='author' content='Kevin Zeng'>
+    <title>Admin | FUSD Speaking Indicator System</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:300,400' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <script>
+      // var interval;
+      // var power = false;
+      //here we get new content and update html
+      var HttpClient = function() {
+          this.get = function(aUrl, aCallback) {
+              var anHttpRequest = new XMLHttpRequest();
+              anHttpRequest.onreadystatechange = function() { 
+                  if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                      aCallback(anHttpRequest.responseText);
+              }
+              anHttpRequest.open( "GET", aUrl, false );            
+              anHttpRequest.send( null );
+              // setTimeout(get, 1000);
+          }
+      }
+      var update = function() {
+        var aClient = new HttpClient();
+        var yes = "";
+        var no = "";
+        aClient.get('/json', function(answer) {
+          var response = $.parseJSON(answer);
+          var speak = response['speak'];
+          var quiet = response['quiet'];
+          for(var i = 0; i<speak.length; i++) {
+            yes = yes.concat('<li>' + speak[i] + '</li>');
+          }
+          if(speak.length === 0) {
+            yes = "<li>No one!</li>";
+          }
+          for(var i = 0; i<quiet.length; i++) {
+            no = no.concat('<li>' + quiet[i] + '</li>');
+          }
+          if(no === "") {
+            no = "<li>No one!</li>";
+          }
+          $('#yes').html(yes);
+          $('#no').html(no);
+        });
+      }
+      $(document).ready(function(){
+        var interval;
+        var power = false;
+        $('#power').click(function() {
+          if(power){
+            power = false;
+            $('#power-ind').text('Off');
+            clearInterval(interval);
+          }
+          else{
+            //start it up again
+            power = true;
+            $('#power-ind').text('On');
+            interval = setInterval(update, 3000);
+            // clearInterval(interval);
+          }
+        });
+        $('.base').click(function() {
+          if(power){
+            power = false;
+            clearInterval(interval);
+          }
+          else{
+            //start it up again
+            power = true;
+            interval = setInterval(update, 3000);
+            // clearInterval(interval);
+          }
+        });
+      });
+    </script>
 
-			        anHttpRequest.open( "GET", aUrl, false );            
-			        anHttpRequest.send( null );
-			        // setTimeout(get, 1000);
-			    }
-			}
-			var update = function() {
-				var aClient = new HttpClient();
-				var yes = "";
-				var no = "";
-				aClient.get('/json', function(answer) {
-					var response = $.parseJSON(answer);
-					var speak = response['speak'];
-					var quiet = response['quiet'];
-					for(var i = 0; i<speak.length; i++) {
-						yes = yes.concat('<li>' + speak[i] + '</li>');
-					}
-					if(speak.length === 0) {
-						yes = "<li>No one!</li>";
-					}
-					for(var i = 0; i<quiet.length; i++) {
-						no = no.concat('<li>' + quiet[i] + '</li>');
-					}
-					if(no === "") {
-						no = "<li>No one!</li>";
-					}
-					$('#yes').html(yes);
-					$('#no').html(no);
-				});
-			}
-			$(document).ready(function(){
-				var interval;
-				var power = false;
-				$('#power').click(function() {
-					if(power){
-						power = false;
-						$('#power-ind').text('Off');
-						clearInterval(interval);
-					}
-					else{
-						//start it up again
-						power = true;
-						$('#power-ind').text('On');
-						interval = setInterval(update, 3000);
-						// clearInterval(interval);
-					}
-				});
-			});
-		</script>
-	</head>
-	<body>
-		<h1>Admin Page</h1>
-		<p><button id='power'>Power</button><div id='power-ind'>Off</div></p>
-		<form method='post'>
-			<div id='input'></div>
-			 <input type='submit' value='Reset'>
-			 <br>
-			 <p>These people wish to speak</p>
-			 <ul id='yes'>No one!</ul>
-			 <p>These people wish to remain quiet</p>
-			 <ul id='no'>No one!</ul>
-		</form>
-	</body>
+    <style>
+      {
+  font-family: 'Roboto Condensed', sans-serif;
+      }
+       h1 {
+  color:#999;
+  font-size: 55;
+  font-family: 'Roboto Slab', serif; font-weight: 400;
+  text-align:center;
+  }
+  body {
+  background-color:#f0f0f0;
+  margin: 0 auto;
+    padding: 0 2em;
+    max-width: 900px;
+    margin-bottom: 50px;
+  }
+  .round { border-radius:1000px; }
+.round { border-radius:1000px; }
+.base {
+  position:relative;
+  width:40px;
+  height:20px;
+  padding:6px 6px 6px;
+  margin:100px auto 10px;
+  background:#f8f8f8;
+  box-shadow:inset 0px 0px 6px rgba(0,0,0,0.33);
+  transition: all 0.125s ease-out;
+  }
+.switch {
+  position:relative;
+  width:20px;
+  height:20px;
+  left:0px;
+  background:red;
+  box-shadow:inset 0px 0px 6px rgba(0,0,0,0.33);
+  transition: all 0.125s ease-out;
+  color:#fff;
+  }
+.symbol {
+  position:absolute;
+  margin:3px;
+  width:8px;
+  height:8px;
+  background:transparent;
+  border:3px solid #fff;
+  }
+.label {
+  position:relative;
+  margin: 0 auto;
+  color:red;
+  }
+  .label:after { content:"Off"; }
+.toggleBase{
+  background:#fcfcfc;
+  box-shadow:inset 0px 0px 3px rgba(0,0,0,0.33);
+  }
+.toggleSwitch{
+  left:20px;
+  width:20px;
+  height:20px;
+  background:green;
+  box-shadow:inset 0px 0px 10px rgba(0,0,0,0.33);
+  }
+.toggleSymbol{
+  position:absolute;
+  margin:3px 4px;
+  left:4px;
+  width:4px;
+  height:14px;
+  background:#fff;
+  border:0px solid #fff;
+  border-radius:1000px;
+  }
+.toggleLabel { color:green; }
+  .toggleLabel:after{ content:"On"; }
+*#lol{
+  text-align:center;
+}
+    </style>
+  </head>
+ 
+  <body>
+    <h1>Admin Page</h1>
+    
+    <div class="round base">
+  <div class="round switch">
+    <div class="round symbol"></div>
+  </div>
+</div>
+<div class="label" id = "lol"></div>
+
+<br>
+    <center><form method='post' form class="pure form">
+      <div id='input'></div>
+       <input type='submit' value='Reset'></center>
+       
+       <br><br>
+       <center>
+       
+       <table class="pure-table">
+    <thead>
+        <tr>
+            <th>These people wish to speak</th>
+            <th>These people wish to remain quiet</th>
+          
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><ul id='yes'>No one!</ul></td>
+            <td> <ul id='no'>No one!</ul></td>
+            
+        </tr>
+
+       
+    </tbody>
+</table> </center>
+   
+       
+    </form>
+  </body> <script>
+  $('.base').on('click', function(){
+  $('.base').toggleClass('toggleBase');
+  $('.switch').toggleClass('toggleSwitch');
+  $('.symbol').toggleClass('toggleSymbol');
+  $('.label').toggleClass('toggleLabel');
+});</script>
 </html>

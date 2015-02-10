@@ -1,33 +1,60 @@
 <!DOCTYPE html>
-<html lang='en'>
-	<head>
-		<meta charset='utf-8'>
-		<meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
-		<meta name='viewport' content='width=device-width, initial-scale=1'>
-		<meta name='author' content='Kevin Zeng'>
-		<title>FUSD Voting System</title>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Kevin Zeng">
+		<title>FUSD Speaking Indicator System</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:300,400' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+	<style>
+	*{
+		font-family: 'Roboto Condensed', sans-serif;
+	}
+	body {
+		background-color:#f0f0f0;
+		margin: 0 auto;
+		padding: 0 2em;
+		max-width: 900px;
+		margin-bottom: 50px;
+	}
+	h1 {
+		color:#999;
+		font-size: 55;
+		font-family: 'Roboto Slab', serif; font-weight: 400;
+		text-align:center;
+	}
+	</style> 
 	</head>
-	<body>
-		<h1>Welcome to the FUSD Voting System</h1>
-		<br>
-		<h2>Below are links to navigate this simple web application.</h2>
-		<br>
+	<body style="zoom: 1;">
+		<h1>Welcome to the FUSD Speaking Indicator System</h1>
 		<hr>
 		<br>
-		<p><a href='/vote'>Click here to vote!</a></p>
-		<p><a href='/admin'>Click here to go to the admin page!</a></p>
+		<center>
+			<a class="button-darker pure-button" href="/speak">Click here to indicate whether you would like to speak!</a> 
+			<a class="button-darker pure-button" href="/admin">Click here to go to the admin page!</a>
+		</center>
 		<br>
 		<br>
 		<h3>How it works:</h3>
-		<p>If you wish to vote, click on the link for the vote page. Enter in your name and whether you want to speak, and hit submit. </p>
-		<p>If you wish to moderate the voting, click on the link for the admin page. The page will populate with everyone who sent a request so far. You may refresh the page to update who's voting if someone submits after you load the page. If you want to reset the system, hit reset, and wait for everyone to vote before you refresh the page.</p>
+		<p>If you wish to speak, click on the link for the speak page. Enter in your name and whether you want to speak, and hit submit. </p>
+		<p>If you wish to moderate the system, click on the link for the admin page. The page will populate with everyone who sent a request so far. You may refresh the page to update who wants to speak or not if someone submits after you load the page. If you want to reset the system, hit reset, and wait for everyone to submit before you refresh the page.</p>
+		<p>Special thanks to the Fremont Unified School District for giving us the opportunity to work on this web application!</p>
+		<p>Extra note: this web application can also be used as a live polling/querying system, as long as you just change "speak" to "vote". :)</p>
 		<br>
-		<br>
+		<hr>
 		<h4>Version History</h4>
 		<ul>
+			<li>Version 0.03 (2/9/2015)</li>
+				<ul>
+					<li>Added styling! Now it looks much better :)</li>
+					<li>Changed general wording from "vote" to "speak" to better match the intended purposes.</li>
+					<li>Currently working on functionality for admins to create custom question, description, admin page, etc. so users know what they are submitting for.</li>
+				</ul>
 			<li>Version 0.02 (2/7/2015): 
 				<ul>
-					<li>Live querying IMPLEMENTED!! Not asynchronous however, since GAE doesn't support sockets. </li>
+					<li>Live querying IMPLEMENTED!! Not asynchronous however, since GAE doesn't fully support sockets. </li>
 					<ul>
 						<li>As a result, the admin page queries every three seconds.</li>
 						<li><strong>Note that power is now turned off for each reset.</strong> </li>
@@ -52,6 +79,7 @@
 		</ul>
 		<br>
 		<hr>
-		<p>Made by Kevin Zeng.</p>
-	</body>
-</html>
+		<p>Made by Kevin Zeng, Katherine Xiang, and Valerie Choung.</p>
+    
+	
+</body></html>

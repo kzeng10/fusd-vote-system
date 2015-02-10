@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content = 'IE=edge'>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<meta name='author' content='Kevin Zeng'>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:300,400' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+		<title>Speak | FUSD Voting System</title>
+	</head>
+		<style> 
+			*{
+			font-family: 'Roboto Condensed', sans-serif;
+			text-align:center;
+		}
+		body {
+			background-color:#f0f0f0;
+			margin: 0 auto;
+			padding: 0 2em;
+			max-width: 900px;
+			margin-bottom: 50px;
+		}
+		 h1 {
+		  color:#999;
+		  font-size: 55;
+		  font-family: 'Roboto Slab', serif; font-weight: 400;
+		  text-align:center;
+		}
+		</style>
+	<body>
+		<form method='post'>
+			<h1 style='bold'>Speak!</h1>
+			<p>{{response}}</p>
+			<div class='name'>
+				<p>Enter your name <input type='text' name='name' value={{name}}></p>
+			<br>
+			</div>
+			<p>Would you like to speak?</p>
+				<style scoped>
+					.button-green,.button-red{
+						color: white;
+						border-radius: 4px;
+						text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+					}
+
+					.button-green {
+						background: rgb(28, 184, 65); /* this is a green */
+					}
+
+					.button-red {
+						background: rgb(202, 60, 60); /* this is a maroon */
+					} 
+				</style>
+			<input type='submit'  class="button-green pure-button" name='choice' value='Yes'>
+			<input type='submit' class="button-red pure-button" name='choice' value='No' >
+			<br>
+			<br>
+			{% if lastRequest %}
+				<p>Last submited on {{lastRequest}}</p>
+			{% endif %}
+		</form>
+	</body>
+</html>
