@@ -40,7 +40,15 @@ body {
       	<h1 style='bold'>Login</h1>
         <p>{{error}}</p>
         Password: <input type='password' name='password' >
-        <input type="submit" class="pure-button pure- button-primary">
+        <style scoped>
+      .button-darker{
+        color: white;
+        border-radius: 4px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        background: #999;
+      } 
+    </style>
+        <input type="submit" class="button-darker pure-button">
  </form>
 	</body>
 </html>

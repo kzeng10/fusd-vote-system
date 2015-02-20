@@ -8,6 +8,7 @@ import re
 import hmac
 from google.appengine.ext import db
 from google.appengine.api import memcache
+from secret import SECRET, pw
 
 template_dir = os.path.dirname(__file__)
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), 
@@ -31,8 +32,6 @@ class Speaker(db.Model):
 	isVoting = db.BooleanProperty(required = True)
 
 #following segment is for hashing user_id
-SECRET = '***' 	#lol
-pw = '***' 		#change this to actual password...(not really secure but w/e)
 def hash_str(s):
 	return hmac.new(SECRET, s).hexdigest()
 
