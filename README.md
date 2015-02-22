@@ -11,8 +11,5 @@ To do list:
 - Keyboard hotkeys for submitting (y for yes and n for no)
 - Indicator on vote page for whether system is on or off
 - Styling (Katherine/Valerie help)
-  - green/red light for power on/off
-  - wrap the admin feed with a pretty table
   - print a count at the bottom
-  - landing, voting, login, and admin page should be more than just times new roman help
 - Login system for voters? Likely unnecessary.
