@@ -4,10 +4,10 @@ import jinja2
 import json
 import time
 import datetime
-import re
+# import re
 import hmac
 from google.appengine.ext import db
-from google.appengine.api import memcache
+# from google.appengine.api import memcache
 from secret import SECRET, pw
 
 template_dir = os.path.dirname(__file__)
@@ -30,6 +30,10 @@ class Handler(webapp2.RequestHandler):
 class Speaker(db.Model):
 	name = db.StringProperty(required = True)
 	isVoting = db.BooleanProperty(required = True)
+	timeStamp = db.IntegerProperty()
+
+#list of current board members
+members = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Cara Yi']
 
 #following segment is for hashing user_id
 def hash_str(s):
@@ -72,7 +76,7 @@ class SpeakHandler(Handler):
 		if name is None: name = ""
 		if lastRequest:
 			lastRequest = datetime.datetime.fromtimestamp(int(lastRequest)).strftime('%b %d, %Y at %I:%M %p')
-		self.render('speak.html', lastRequest = lastRequest, name = name) #{{if lastRequest}} <p>Last submitted ____</p>
+		self.render('speak.html', members = members, lastRequest = lastRequest, name = name) #{{if lastRequest}} <p>Last submitted ____</p>
 
 	def post(self):
 		lastRequest = self.request.cookies.get('lastRequest')
@@ -81,24 +85,24 @@ class SpeakHandler(Handler):
 		name = self.request.get('name')
 		choice = self.request.get('choice')
 		if name == "":
-			self.render('speak.html', lastRequest = lastRequest, response = 'Please enter a name.')
+			self.render('speak.html', members = members, lastRequest = lastRequest, response = 'Please enter a name.')
 		else:
 			choice = str(choice) == 'Yes'
-			speaker = Speaker(name = name, isVoting = choice)
+			speaker = Speaker(name = name, isVoting = choice, timeStamp = int(time.time()))
 			speaker.put()
 			lastRequest = datetime.datetime.fromtimestamp(int(time.time()) - 8*3600).strftime('%b %d, %Y at %I:%M %p')
 			self.response.headers.add_header('Set-Cookie', 'lastRequest=' + str(int(time.time())) + ';Path=/')
 			self.response.headers.add_header('Set-Cookie', 'name=' + str(name) + ';Path=/')
-			self.render('speak.html', lastRequest = lastRequest, name = name, response = 'Successfully submitted.')
+			self.render('speak.html', members = members, lastRequest = lastRequest, name = name, response = 'Successfully submitted.')
 
 class JSONHandler(Handler):
 	def get(self):
 		#returns JSON of all db entries
 		speakers = db.GqlQuery('SELECT * FROM Speaker')
 		self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
-		# format as {"speak": ["person1", "person2"], "quiet": ["person3"]}
-		# add in last modified if necessary?
-		speak = [speaker.name for speaker in speakers if speaker.isVoting]
-		quiet = [speaker.name for speaker in speakers if not speaker.isVoting]
+		# format as {"speak": [{"name":"person1", "timeStamp":timeStamp}, {"name":"person2", "timeStamp":timeStamp}], "quiet": [{...}, {...}]}
+		speak = [{"name":speaker.name, "timeStamp":speaker.timeStamp} for speaker in speakers if speaker.isVoting]
+		quiet = [{"name":speaker.name, "timeStamp":speaker.timeStamp} for speaker in speakers if not speaker.isVoting]
+		speak.sort(key = lambda x: x.get('timeStamp'))
 		jsonOut = {"speak": speak, "quiet": quiet}
 		self.write(json.dumps(jsonOut))

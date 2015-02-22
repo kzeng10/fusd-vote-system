@@ -35,7 +35,16 @@
 			<h1 style='bold'>Speak!</h1>
 			<p>{{response}}</p>
 			<div class='name'>
-				<p>Enter your name <input type='text' name='name' value={{name}}></p>
+				<p>Select your name from the list</p>
+				<select name="name">
+					{% for member in members %}
+						{% if member == name %}
+						<option value='{{member}}' selected >{{member}}</option>
+						{% else %}
+						<option value='{{member}}'>{{member}}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
 			<br>
 			</div>
 			<p>Would you like to speak?</p>

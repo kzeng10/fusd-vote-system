@@ -35,13 +35,13 @@
           var speak = response['speak'];
           var quiet = response['quiet'];
           for(var i = 0; i<speak.length; i++) {
-            yes = yes.concat('<li>' + speak[i] + '</li>');
+            yes = yes.concat('<li>' + speak[i]['name'] + '</li>');
           }
           if(speak.length === 0) {
             yes = "<li>No one!</li>";
           }
           for(var i = 0; i<quiet.length; i++) {
-            no = no.concat('<li>' + quiet[i] + '</li>');
+            no = no.concat('<li>' + quiet[i]['name'] + '</li>');
           }
           if(no === "") {
             no = "<li>No one!</li>";
