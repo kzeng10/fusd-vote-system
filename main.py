@@ -18,7 +18,7 @@
 
 import webapp2
 import re
-from speak import AdminHandler, LoginHandler, SpeakHandler, JSONHandler
+from speak import AdminHandler, LoginHandler, SpeakHandler, JSONHandler, DeleteHandler
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -29,5 +29,6 @@ app = webapp2.WSGIApplication([
     ('/admin', AdminHandler),
     ('/login', LoginHandler),
     ('/speak', SpeakHandler),
-    ('/json', JSONHandler)
+    ('/json', JSONHandler),
+    ('/delete/(\d+)', DeleteHandler)
 ], debug=True)

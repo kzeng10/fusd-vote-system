@@ -101,8 +101,17 @@ class JSONHandler(Handler):
 		speakers = db.GqlQuery('SELECT * FROM Speaker')
 		self.response.headers['Content-Type'] = 'application/json; charset=UTF-8'
 		# format as {"speak": [{"name":"person1", "timeStamp":timeStamp}, {"name":"person2", "timeStamp":timeStamp}], "quiet": [{...}, {...}]}
-		speak = [{"name":speaker.name, "timeStamp":speaker.timeStamp} for speaker in speakers if speaker.isVoting]
-		quiet = [{"name":speaker.name, "timeStamp":speaker.timeStamp} for speaker in speakers if not speaker.isVoting]
+		speak = [{"name":speaker.name, "timeStamp":speaker.timeStamp, "id":speaker.key().id()} for speaker in speakers if speaker.isVoting]
+		quiet = [{"name":speaker.name, "timeStamp":speaker.timeStamp, "id":speaker.key().id()} for speaker in speakers if not speaker.isVoting]
 		speak.sort(key = lambda x: x.get('timeStamp'))
 		jsonOut = {"speak": speak, "quiet": quiet}
 		self.write(json.dumps(jsonOut))
+
+class DeleteHandler(Handler):
+	def get(self, member_id):
+		member = Speaker.get_by_id(int(member_id))
+		self.response.out.write(member)
+		if member:
+			member.delete()
+			self.response.out.write("Delete successful.")
+

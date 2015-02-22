@@ -35,15 +35,15 @@
           var speak = response['speak'];
           var quiet = response['quiet'];
           for(var i = 0; i<speak.length; i++) {
-            yes = yes.concat('<li>' + speak[i]['name'] + '</li>');
+            yes = yes.concat('<li id="' + speak[i]['id'] + '">' + speak[i]['name'] + '</a></li>');
           }
           if(speak.length === 0) {
             yes = "<li>No one!</li>";
           }
           for(var i = 0; i<quiet.length; i++) {
-            no = no.concat('<li>' + quiet[i]['name'] + '</li>');
+            no = no.concat('<li id="' + quiet[i]['id'] + '">' + quiet[i]['name'] + '</a></li>');
           }
-          if(no === "") {
+          if(quiet.length === 0) {
             no = "<li>No one!</li>";
           }
           $('#yes').html(yes);
@@ -53,20 +53,6 @@
       $(document).ready(function(){
         var interval;
         var power = false;
-        $('#power').click(function() {
-          if(power){
-            power = false;
-            $('#power-ind').text('Off');
-            clearInterval(interval);
-          }
-          else{
-            //start it up again
-            power = true;
-            $('#power-ind').text('On');
-            interval = setInterval(update, 3000);
-            // clearInterval(interval);
-          }
-        });
         $('.base').click(function() {
           if(power){
             power = false;
@@ -77,6 +63,15 @@
             power = true;
             interval = setInterval(update, 3000);
             // clearInterval(interval);
+          }
+        });
+        $('body').on('click', 'li', function() {
+          //if a name is clicked, we remove from the list
+          var id = $(this).attr('id');  //we select based on value of id attr for the li element
+          var name = $(this).text();
+          if(confirm("Would you like to remove " + name + " from the list?")) { //to confirm if the delete is intended, delete if it gets too annoying?
+            $.get('/delete/' + id.toString());
+            $(this).slideUp();
           }
         });
       });
@@ -160,6 +155,9 @@
   .toggleLabel:after{ content:"On"; }
 *#lol{
   text-align:center;
+}
+li:hover { 
+  background: yellow;
 }
     </style>
   </head>
