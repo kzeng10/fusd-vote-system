@@ -7,8 +7,6 @@ If you wish to moderate the voting, click on the link for the admin page. The pa
 		
 		
 To do list:
-- Drop Down Menu of all board members (5 people)
-- Order people in admin page based on submission time
 - Click person's name to delete
 - Keyboard hotkeys for submitting (y for yes and n for no)
 - Indicator on vote page for whether system is on or off
