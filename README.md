@@ -7,6 +7,7 @@ If you wish to moderate the voting, click on the link for the admin page. The pa
 		
 		
 To do list:
+- Move system to using just a memcache rather than a DB backend, or rewrite this entire thing using express and socket.io
 - Keyboard hotkeys for submitting (y for yes and n for no)
 - Indicator on vote page for whether system is on or off
 - Styling (Katherine/Valerie help)
