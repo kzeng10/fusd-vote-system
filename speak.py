@@ -11,7 +11,7 @@ from google.appengine.ext import db
 from secret import SECRET, pw
 
 template_dir = os.path.dirname(__file__)
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), 
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 								autoescape = True)
 
 #handler for the jinja2 env. allows us to use templates! c/p this code all you want for other projects
@@ -33,7 +33,7 @@ class Speaker(db.Model):
 	timeStamp = db.IntegerProperty()
 
 #list of current board members
-members = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Cara Yi']
+members = ['President', 'Vice-President', 'Clerk', 'Member 1', 'Member 2', 'Student Member']
 
 #following segment is for hashing user_id
 def hash_str(s):
